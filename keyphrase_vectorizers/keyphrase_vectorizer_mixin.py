@@ -7,7 +7,7 @@
 
 import logging
 import os
-from typing import List
+from typing import Iterable, List
 
 import nltk
 import numpy as np
@@ -179,7 +179,7 @@ class _KeyphraseVectorizerMixin():
                                                                max_text_length=max_text_length)
             return splitted_document
 
-    def _get_pos_keyphrases(self, document_list: List[str], stop_words: str, spacy_pipeline: str, pos_pattern: str,
+    def _get_pos_keyphrases(self, document_list: List[str], stop_words: str|Iterable[str], spacy_pipeline: str, pos_pattern: str,
                             lowercase: bool = True, workers: int = 1) -> List[str]:
         """
         Select keyphrases with part-of-speech tagging from a text document.
@@ -258,7 +258,7 @@ class _KeyphraseVectorizerMixin():
             )
 
         stop_words_list = []
-        if stop_words:
+        if isinstance(stop_words,str):
             try:
                 stop_words_list = set(nltk.corpus.stopwords.words(stop_words))
             except LookupError:
@@ -273,6 +273,8 @@ class _KeyphraseVectorizerMixin():
                     'It looks like you do not have downloaded a list of stopwords yet. It is attempted to download the stopwords now.')
                 nltk.download('stopwords')
                 stop_words_list = set(nltk.corpus.stopwords.words(stop_words))
+        elif isinstance(stop_words, Iterable):
+            stop_words_list = set(stop_words)
 
         # add spaCy POS tags for documents
         spacy_exclude = ['parser', 'ner', 'entity_linker', 'entity_ruler', 'textcat', 'textcat_multilabel',
