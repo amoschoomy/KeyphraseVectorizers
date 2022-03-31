@@ -7,7 +7,7 @@
 """
 
 import warnings
-from typing import List
+from typing import List, Union
 
 import numpy as np
 import psutil
@@ -122,7 +122,7 @@ class KeyphraseTfidfVectorizer(KeyphraseCountVectorizer):
     """
 
     def __init__(self, spacy_pipeline: str = 'en_core_web_sm', pos_pattern: str = '<J.*>*<N.*>+',
-                 stop_words: str | list[str] |set[str] = 'english',
+                 stop_words: Union[str,list[str],set[str]] = 'english',
                  lowercase: bool = True, workers: int = 1, max_df: int = None, min_df: int = None,
                  binary: bool = False,
                  dtype: np.dtype = np.float64, norm: str = "l2",
