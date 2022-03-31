@@ -227,11 +227,6 @@ class _KeyphraseVectorizerMixin():
                 "Iterable over raw text documents expected."
             )
 
-        # triggers a parameter validation
-        if not isinstance(stop_words, str):
-            raise ValueError(
-                "'stop_words' parameter needs to be a string. E.g. 'english'"
-            )
 
         # triggers a parameter validation
         if not isinstance(spacy_pipeline, str):
